@@ -1,5 +1,7 @@
+# get current identity data. We will use this later to set some ARN values 
 data "aws_caller_identity" "aws_current_account_id" {}
 
+# Set data for role assumption. We will use this in th resource iam_resources_role
 data "aws_iam_policy_document" "lambda_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -10,7 +12,7 @@ data "aws_iam_policy_document" "lambda_assume_role" {
     }
   }
 }
-
+# Set data for inline policy. We will use this in th resource iam_resources_role 
 data "aws_iam_policy_document" "aws_resources_inline_policy" {
 
   statement {
@@ -31,7 +33,7 @@ data "aws_iam_policy_document" "aws_resources_inline_policy" {
     resources = ["arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.aws_current_account_id.account_id}:table/${var.aws_resource_name_tag}"]
   }
 }
-
+# Create IAM Role with role assumption value and inline policy
 resource "aws_iam_role" "iam_resources_role" {
   name = "${var.aws_resource_name_tag}-iam_role_for_resources"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role.json
