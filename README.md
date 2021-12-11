@@ -72,7 +72,7 @@ Once the resources are created ( about 30 seconds ), you should see the followin
 
 ### Testing
 
-You can test the application with the included files in directory [dummyfiles](assets/dummyfiles/) within the assets folder. You can upload multiple files and/or folders at once. Please keep in mind the max execution timeout of the Lambda function. Currently set to ```60 seconds```.
+You can test the application with the included files in directory [test files](assets/testfiles/) within the assets folder. You can upload multiple files and/or folders at once. Please keep in mind the max execution timeout of the Lambda function. Currently set to ```60 seconds```.
 
 If you wish to use your own csv files, you must meet the following condition:
   - File should be .csv
