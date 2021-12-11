@@ -51,7 +51,7 @@ Terraform will create all resources useing the settings from the following files
 ---
 
 ## Create resources
-1. Download this repository or use ```git clone```  
+1. Download this repository or use ```git clone https://github.com/erecica/csv-to-dynamodb-with-lambda.git```  
 2. Open the downloded repository with your favorite code editor
 2. Set varriables in the file [varriables.tf](varriables.tf)
 3. Run terraform script
