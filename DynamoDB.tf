@@ -1,3 +1,4 @@
+# Creats a DynamoDB Table with TTL enabled
 resource "aws_dynamodb_table" "csv-data-from-s3" {
   name           = "${var.aws_resource_name_tag}"
   billing_mode   = "PROVISIONED"
