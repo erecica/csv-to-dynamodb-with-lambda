@@ -30,7 +30,7 @@ You need the following to run the code:
 ### AWS Authentication 
 The AWS provider offers a flexible means of providing credentials for authentication. [Visit Terraform Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#authentication) for all possibilities.
 
-For this exercise, we will use the provider variables `aws_key`, `aws_secret` & `aws_region`. You need to set these in the file [varriables.tf](varriables.tf)  
+For this exercise, we will use the Static credentials method, adding variables `aws_key`, `aws_secret` & `aws_region`. You need to set these in the file [varriables.tf](varriables.tf)  
 
 ## Terraform files
 Terraform will create all resources using the settings from the following files:
@@ -43,7 +43,7 @@ Terraform will create all resources using the settings from the following files:
 - [DynamoDB.tf](DynamoDB.tf)
   - DynamoDB Table with ***[Time to Live (TTL)](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/TTL.html)*** (Dissable this by changing the value of ttl attribute `enabled` to false in file [DynamoDB.tf](DynamoDB.tf))
 - [Lambda.tf](Lambda.tf)
-  - Creats the archive.zip file for the Lambda function (script/index.py)
+  - Creats the .zip file (using ${aws_resource_name_tag} as file name) for the Lambda function (script/index.py)
   - Creates the Lambda function using Python 3.8 runtime and sets enviorment variables which can be used by the Lambda function
 - [Cloudwatch.tf](Cloudwatch.tf)
   - Loggroup with 7 days retention setting
