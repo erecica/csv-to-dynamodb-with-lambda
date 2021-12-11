@@ -1,7 +1,7 @@
 # Import CSV To DynamoDB with Lambda
 
 
-This Lambda function (Python) imports the content of an uploaded CSV file from S3 into DynamoDB. This Lambda function is only triggered when a .csv file is uploaded to the specific S3 bucket, which will be created. Resources are created with Terraform as visualized with the following image.
+This Lambda function (Python) imports the content of an uploaded CSV file from S3 into DynamoDB. The function is only triggered when a .csv file is uploaded to the specific S3 bucket, which will be created. Resources are created with Terraform as visualized with the following image.
 
 <p align="center">
   <img alt="Infrastructure" src="assets/infrastructure.png">
@@ -10,7 +10,7 @@ This Lambda function (Python) imports the content of an uploaded CSV file from S
 ---
 
 ## Python script
-The Python script is pretty straight forward. It loads some modules and reads the event (triggered from S3 when a .csv file is uploaded), sets some variables (ex. recordttlepoch for DynamoDB Time to Live (TTL)). After splitting the row, it writes the row values to the DynamoDB Table with a unique identifier and current date time value. After completion, the script will delete the processed file(s). This behavior can be changed by deleting / commenting out the line line ```s3_cient.delete_object...```. 
+The Python script is pretty straight forward. It loads some modules and reads the event (triggered from S3 when a .csv file is uploaded), sets some variables (ex. recordttlepoch for DynamoDB Time to Live (TTL)). After splitting the row, it writes the row values to the DynamoDB Table with a unique identifier and current date time value. After completion, the script will delete the processed file(s). This behavior can be changed by deleting / commenting out the line line ```s3_cient.delete_object...``` in the file [script/index.py](script/index.py). 
 
 ### Warning!
 >***The included Python script will delete your uploaded CSV file(s), once the records are imported to DynamoD. If you wish to keep the file(s), comment/delete the line ```s3_cient.delete_object...``` from python script. 
@@ -22,8 +22,8 @@ DynamoDB has also a record TTL set to 4 hours! Dissable this behavior by changin
 
 You need the following to run the code:
 
-- [Terraform >= 1.0.11](https://www.terraform.io/downloads.html)
-- [AWS Account](https://aws.amazon.com) (with  'AdministratorAccess' role)
+- [Terraform >= 1.0.11](https://www.terraform.io/downloads.html) If you are on a Mac and use brew, just run ```brew update && brew  install terraform```
+- [AWS Account](https://aws.amazon.com) (Create an account and add a role with 'AdministratorAccess' role. We will use this to create the resources)
 - Code editor (ex. [Visual Studio Code](https://code.visualstudio.com/download))
 
 ---
@@ -32,8 +32,8 @@ The AWS provider offers a flexible means of providing credentials for authentica
 
 For this exercise, we will use the provider variables `aws_key`, `aws_secret` & `aws_region`. You need to set these in the file [varriables.tf](varriables.tf)  
 
-### Terraform files
-Terraform will create all resources useing the settings from the following files:
+## Terraform files
+Terraform will create all resources using the settings from the following files:
 
 - [IAM.tf](IAM.tf)
   - Inline Policy ( with promissions to S3, Cloudwatch and DynamoDB )
@@ -61,21 +61,22 @@ terraform plan
 terraform apply
 ```
 
-After running `terraform apply` (or '`terraform apply --auto-approve`' This skips interactive approval of plan before applying), the script will create all the nessesery resources.
+After running `terraform apply` (or `terraform apply --auto-approve` This skips interactive approval of plan before applying), the script will create all the nessesery resources.
 
-When the Terraform scrits are done, you'll see the follwing output.
+Once the resources are created ( about 30 seconds ), you should see the following output.
 + AWS_DynamoDB_Table = "DynamoDB Table name"
 + AWS_Region         = "AWS Region you enterd"
 + AWS_S3bucket       = "S3 Bucket name you just created" 
 
 ---
 
-## Testing
+### Testing
 
-You can test the application with the included files in directory [dummyfiles](dummyfiles/).
-If you wish to test with your own csv files, you must meet the following condition:
+You can test the application with the included files in directory [dummyfiles](dummyfiles/). You can upload multiple files and/or folders at once. Please keep in mind the max execution timeout of the Lambda function. Currently set to ```60 seconds```.
+
+If you wish to use your own csv files, you must meet the following condition:
   - File should be .csv
-  - File should have the following structure:
+  - File should have the following structure
   ```sh 
     string,string,string,string,number
   ```
