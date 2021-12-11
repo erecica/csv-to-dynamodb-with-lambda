@@ -1,8 +1,8 @@
-
+# Create a zip file of the script. Lambda needs this to create the function
 data "archive_file" "lambda_function_archive" {
   type         = "zip"
   source_file  = "${path.module}/script/index.py"
-  output_path  = "${path.module}/script/archive.zip"
+  output_path  = "${path.module}/script/${var.aws_resource_name_tag}.zip"
 }
 
 resource "aws_lambda_function" "csv_handler" {
