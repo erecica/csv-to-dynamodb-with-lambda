@@ -14,7 +14,7 @@ variable "aws_secret" {
 variable "aws_region" {
   type        = string
   description = "AWS region used for all resources"
-  default     = "" # change this if you wish to rename your resources
+  default     = "" # set your preferred AWS region
 
 }
 
