@@ -46,7 +46,7 @@ Terraform will create all resources useing the settings from the following files
   - Creats the archive.zip file for the Lambda function (script/index.py)
   - Creates the Lambda function using Python 3.8 runtime and sets enviorment variables which can be used by the Lambda function
 - [Cloudwatch.tf](Cloudwatch.tf)
-  - Loggroup
+  - Loggroup with 7 days retention setting
 
 ---
 
