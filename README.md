@@ -13,7 +13,7 @@ This Lambda function (Python) imports the content of an uploaded .csv file from 
 The Python script is pretty straight forward. It loads some modules and reads the event (triggered from S3 when a .csv file is uploaded), sets some variables (ex. recordttlepoch for DynamoDB Time to Live (TTL). After splitting the row, it writes the row values to the DynamoDB Table with a unique identifier and current date time value. After completion, the script will delete the processed file(s). This behavior can be changed by deleting / commenting out the line line ```s3_cient.delete_object...``` in the file [script/index.py](script/index.py). 
 
 ### Warning!
->***The included Python script will delete your uploaded CSV file(s), once the records are imported to DynamoD. If you wish to keep the file(s), comment/delete the line ```s3_cient.delete_object...``` from python script. 
+>***The included Python script will delete your uploaded CSV file(s), once the records are imported to DynamoDB. If you wish to keep the file(s), comment/delete the line ```s3_cient.delete_object...``` from python script. 
 DynamoDB has also a record TTL set to 4 hours! Disable this behavior by changing the value of ttl attribute `enabled` to ```false``` in file [DynamoDB.tf](DynamoDB.tf)***
 
 ---
